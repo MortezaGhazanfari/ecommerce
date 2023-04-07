@@ -1,0 +1,15 @@
+package com.example.ecommerce.dto.cart;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
+
+@AllArgsConstructor
+@Getter
+@Setter
+public class CartDto {
+    private List<CartItemDto> cartItems;
+    private double totalCost;
+}
