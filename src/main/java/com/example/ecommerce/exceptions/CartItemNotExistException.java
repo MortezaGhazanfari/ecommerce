@@ -1,4 +1,4 @@
-package com.example.ecommerce.exception;
+package com.example.ecommerce.exceptions;
 
 public class CartItemNotExistException extends IllegalArgumentException {
     public CartItemNotExistException(String msg) {

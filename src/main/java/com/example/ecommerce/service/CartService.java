@@ -6,20 +6,30 @@ import com.example.ecommerce.dto.cart.CartItemDto;
 import com.example.ecommerce.entity.Cart;
 import com.example.ecommerce.entity.Product;
 import com.example.ecommerce.entity.User;
-import com.example.ecommerce.exception.CartItemNotExistException;
+import com.example.ecommerce.exceptions.CartItemNotExistException;
 import com.example.ecommerce.repository.CartRepository;
-
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+@Transactional
 public class CartService {
-    private final CartRepository cartRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
+
+    public CartService(){}
+
+    public CartService(CartRepository cartRepository) {
+        this.cartRepository = cartRepository;
+    }
+
     public void addToCart(AddToCartDto addToCartDto, Product product, User user){
         Cart cart = new Cart(product, addToCartDto.getQuantity(), user);
         cartRepository.save(cart);
@@ -53,7 +63,7 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public void deleteCartItem(Long id,int userId) throws CartItemNotExistException {
+    public void deleteCartItem(Long id,Long userId) throws CartItemNotExistException {
         if (!cartRepository.existsById(id))
             throw new CartItemNotExistException("Cart id is invalid : " + id);
         cartRepository.deleteById(id);
@@ -69,3 +79,5 @@ public class CartService {
         cartRepository.deleteByUser(user);
     }
 }
+
+
